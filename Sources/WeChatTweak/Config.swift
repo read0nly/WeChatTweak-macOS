@@ -9,6 +9,8 @@ import Foundation
 import MachO
 
 struct Config: Decodable {
+    static let `default` = URL(string:"https://raw.githubusercontent.com/sunnyyoung/WeChatTweak/refs/heads/master/config.json")!
+
     enum Arch: String, Decodable {
         case arm64
         case x86_64
@@ -81,7 +83,7 @@ struct Config: Decodable {
     let version: String
     let targets: [Target]
 
-    static func load(from url: URL) async throws -> [Config] {
+    static func load(url: URL = Self.default) async throws -> [Config] {
         if url.isFileURL {
             return try JSONDecoder().decode(
                 [Config].self,
